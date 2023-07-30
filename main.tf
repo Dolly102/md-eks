@@ -75,6 +75,7 @@ module "eks" {
       disk_size    = 60
       instance_types = [
         "m5.xlarge",
+        "t3.xlarge"
       ]
       capacity_type = "ON_DEMAND"
       network_interfaces = [{
