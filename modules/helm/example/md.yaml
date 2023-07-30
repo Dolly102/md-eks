@@ -43,6 +43,7 @@ metadata:
     external-dns.alpha.kubernetes.io/target: aamer.in
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
+  ingressClassName: nginx
   rules:
     - host: dev.aamer.in
       http:
@@ -54,3 +55,8 @@ spec:
                 name: mohammed
                 port:
                   number: 80
+  tls:
+    - secretName: aamer-tls
+      hosts:
+        - aamer.in
+        - dev.aamer.in
