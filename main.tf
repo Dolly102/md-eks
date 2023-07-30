@@ -57,3 +57,27 @@ module "network" {
   private_subnets = local.private_subnets
   public_subnets  = local.public_subnets
 }
+
+module "eks" {
+  source          = "./modules/eks"
+  cluster_name    = "abyaz"
+  vpc_id          = module.network.vpc_id
+  subnet_ids      = module.network.private_subnets
+  cluster_version = "1.27"
+  eks_managed_node_groups = {
+    "eks-ondemand" = {
+      ami_type     = "AL2_x86_64"
+      min_size     = 1
+      max_size     = 4
+      desired_size = 1
+      instance_types = [
+        "m5.xlarge",
+      ]
+      capacity_type = "ON_DEMAND"
+      network_interfaces = [{
+        delete_on_termination       = true
+        associate_public_ip_address = true
+      }]
+    }
+  }
+}
