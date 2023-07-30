@@ -186,6 +186,21 @@ resource "helm_release" "external-dns" {
     value = "sync"
   }
 
+  set {
+    name  = "useDaemonset"
+    value = "true"
+  }
+
+  set {
+    name  = "region"
+    value = "ap-south-2"
+  }
+
+  set {
+    name  = "zoneType"
+    value = "public"
+  }
+
   values = [
     "${file("modules/helm/templates/values-external-dns.yaml")}"
   ]
