@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mohammed
+spec:
+  selector:
+    matchLabels:
+      app: mohammed
+  template:
+    metadata:
+      labels:
+        app: mohammed
+    spec:
+      containers:
+        - name: mohammed
+          image: nginx
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mohammed
+spec:
+  selector:
+    app: mohammed
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mohammed
+  labels:
+    name: mohammed
+  annotations:
+    external-dns.alpha.kubernetes.io/target: aamer.in
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  rules:
+    - host: dev.aamer.in
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: mohammed
+                port:
+                  number: 80
