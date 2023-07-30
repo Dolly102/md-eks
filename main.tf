@@ -59,33 +59,23 @@ module "network" {
 }
 
 module "eks" {
-  source          = "./modules/eks"
-  cluster_name    = "aamer"
-  vpc_id          = module.network.vpc_id
+  source = "./modules/eks"
+  vpc_id = module.network.vpc_id
+
   subnet_ids      = module.network.private_subnets
+  cluster_name    = "aamer"
   cluster_version = "1.27"
 
-  eks_managed_node_group_defaults = {
-    ami_type       = "AL2_x86_64"
-    min_size       = 1
-    max_size       = 4
-    desired_size   = 1
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
-    capacity_type  = "ON_DEMAND"
-    network_interfaces = [{
-      delete_on_termination       = true
-      associate_public_ip_address = true
-    }]
-  }
-
   eks_managed_node_groups = {
-    blue = {}
-    green = {
-      min_size       = 1
-      max_size       = 10
-      desired_size   = 1
-      instance_types = ["t3.medium"]
-      capacity_type  = "SPOT"
+    "eks-ondemand" = {
+      ami_type     = "AL2_x86_64"
+      min_size     = 1
+      max_size     = 4
+      desired_size = 1
+      instance_types = [
+        "m5.xlarge",
+      ]
+      capacity_type = "ON_DEMAND"
       network_interfaces = [{
         delete_on_termination       = true
         associate_public_ip_address = true
