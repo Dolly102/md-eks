@@ -72,6 +72,7 @@ module "eks" {
       min_size     = 1
       max_size     = 4
       desired_size = 1
+      disk_size    = 60
       instance_types = [
         "m5.xlarge",
       ]
