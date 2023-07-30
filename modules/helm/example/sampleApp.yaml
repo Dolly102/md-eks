@@ -54,3 +54,7 @@ spec:
             name: abyaz
             port:
               number: 80
+  tls:
+    - secretName: abyaz-tls
+      hosts:
+        - dev.abyaz.in
