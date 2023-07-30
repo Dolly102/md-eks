@@ -1,61 +1,67 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mohammed
+  name: nginx
 spec:
   selector:
     matchLabels:
-      app: mohammed
+      app: nginx
   template:
     metadata:
       labels:
-        app: mohammed
+        app: nginx
     spec:
       containers:
-        - name: mohammed
-          image: nginx
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
           resources:
             limits:
               memory: "128Mi"
               cpu: "500m"
-          ports:
-            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mohammed
+  name: nginx
+  labels:
+    app: nginx
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: aamer.in
+    external-dns.alpha.kubernetes.io/ttl: "120"
 spec:
   selector:
-    app: mohammed
+    app: nginx
+  type: LoadBalancer
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mohammed
+  name: ingress
   labels:
-    name: mohammed
+    app: nginx
   annotations:
-    external-dns.alpha.kubernetes.io/target: "aamer.in"
+    external-dns.alpha.kubernetes.io/target: aamer.in
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: nginx
   rules:
-    - host: dev.aamer.in
+    - host: aamer.in
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: mohammed
+                name: nginx
                 port:
                   number: 80
   tls:
     - secretName: aamer-tls
       hosts:
-        - dev.aamer.in
+        - aamer.in
