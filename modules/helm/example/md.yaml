@@ -40,7 +40,7 @@ metadata:
   labels:
     name: mohammed
   annotations:
-    external-dns.alpha.kubernetes.io/target: aamer.in
+    external-dns.alpha.kubernetes.io/target: "aamer.in"
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: nginx
@@ -58,5 +58,4 @@ spec:
   tls:
     - secretName: aamer-tls
       hosts:
-        - aamer.in
         - dev.aamer.in
