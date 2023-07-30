@@ -4,18 +4,11 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: getaamer@gmail.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - dns01:
-        route53:
-          hostedZoneID: Z0411043ISXL599QGTOU
-          region: ap-south-2
-      selector:
-        dnsZones:
-        - "abyaz.in"
     - http01:
         ingress:
           class: nginx

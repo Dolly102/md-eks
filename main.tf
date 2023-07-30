@@ -139,7 +139,7 @@ resource "helm_release" "cert-manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
-  namespace  = "cert-manager"
+  namespace  = "kube-system"
 
   create_namespace = false
 
@@ -206,10 +206,10 @@ resource "helm_release" "external-dns" {
   ]
 }
 
-resource "helm_release" "nginx-ingress" {
-  name       = "nginx-ingress"
-  repository = "https://helm.nginx.com/stable"
-  chart      = "nginx-ingress"
+resource "helm_release" "ingress-nginx" {
+  name       = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
   namespace  = "ingress"
 
   create_namespace = false
