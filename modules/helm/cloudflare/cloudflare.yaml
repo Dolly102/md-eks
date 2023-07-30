@@ -53,13 +53,16 @@ spec:
         - name: external-dns
           image: registry.k8s.io/external-dns/external-dns:v0.13.5
           args:
-            - --source=service # ingress is also possible
-            - --source=ingress # ingress is also possible
-            - --domain-filter=aamer.in # (optional) limit to only example.com domains; change to match the zone created above.
-            - --zone-id-filter=9dd8b21266fab05f8c60163a61dc5f0e # (optional) limit to a specific zone.
+            - --source=service
+            - --source=ingress
+            - --domain-filter=aamer.in
+            - --zone-id-filter=9dd8b21266fab05f8c60163a61dc5f0e
             - --provider=cloudflare
-            - --cloudflare-proxied # (optional) enable the proxy feature of Cloudflare (DDOS protection, CDN...)
-            - --txt-prefix=prod
+            - --cloudflare-proxied
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           env:
             - name: CF_API_TOKEN
               value: "_e9OtsLcafigW6D-t2WtBhUPENUBqcJcxfT1NZ-f"
