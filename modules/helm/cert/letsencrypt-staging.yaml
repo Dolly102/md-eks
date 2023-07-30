@@ -4,11 +4,13 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    email: getaamer@gmail.com
+    email: aamer@usa.com
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - http01:
-        ingress:
-          class: nginx
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token

@@ -172,6 +172,16 @@ resource "helm_release" "external-dns" {
   create_namespace = false
 
   set {
+    name  = "domain-filter"
+    value = "abyaz.in"
+  }
+
+  set {
+    name  = "txt-owner-id"
+    value = "abyaz.in"
+  }
+
+  set {
     name  = "wait-for"
     value = module.external_dns_irsa_role.iam_role_arn
   }
